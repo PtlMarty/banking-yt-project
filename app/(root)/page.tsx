@@ -27,7 +27,11 @@ const Home = () => {
         </header>
         RECENT
       </div>
-      <RightSideBar user={loggedIn} transctions={[]} banks={[{}, {}]} />
+      <RightSideBar
+        user={loggedIn}
+        transctions={[]}
+        banks={[{ currentBalance: 123.5 }, { currentBalance: 500.0 }]}
+      />
     </section>
   );
 };
