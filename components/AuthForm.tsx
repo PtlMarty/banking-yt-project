@@ -8,8 +8,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { authFormSchema } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import { z } from "zod";
-import CostumInput from "./CustumInput";
+import CustumInput from "./CustumInput";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -18,6 +19,7 @@ const formSchema = z.object({
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof authFormSchema>>({
@@ -32,7 +34,9 @@ const AuthForm = ({ type }: { type: string }) => {
   function onSubmit(values: z.infer<typeof authFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    setIsLoading(true);
     console.log(values);
+    setIsLoading(false);
   }
   return (
     <section className="auth-form">
@@ -64,24 +68,42 @@ const AuthForm = ({ type }: { type: string }) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <CostumInput
+              <CustumInput
                 control={form.control}
-                name={"Username"}
-                label={"Email"}
-                placeholder={"Enter Yout Email"}
-                type={"email"}
-              />
-              <CostumInput
-                control={form.control}
-                name={"password"}
-                label={"Password"}
-                placeholder={"Enter Yout Password"}
-                type={"password"}
+                name="email"
+                label="Email"
+                placeholder="Enter your email"
               />
 
-              <Button type="submit">Submit</Button>
+              <CustumInput
+                control={form.control}
+                name="password"
+                label="Password"
+                placeholder="Enter your password"
+              />
+
+              <Button type="submit" className="form-btn" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" /> &nbsp;
+                    Loading ...
+                  </>
+                ) : type === "sign-in" ? (
+                  "Sign In"
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
             </form>
           </Form>
+          <footer className="flex justify-center gap-1">
+            <p>
+              {type === "sign-in"
+                ? "Don't have an account?"
+                : "Already have an account"}
+            </p>
+            <Link href="/sign-up"> Sign-Up</Link>
+          </footer>
         </>
       )}
     </section>

@@ -1,28 +1,27 @@
-import { authFormSchema } from "@/lib/utils";
-import { Control } from "react-hook-form";
-import { z } from "zod";
 import { FormControl, FormField, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 
-interface CostumInputProps {
+import { authFormSchema } from "@/lib/utils";
+import { Control, FieldPath } from "react-hook-form";
+import { z } from "zod";
+
+interface CustomInputPros {
   control: Control<z.infer<typeof authFormSchema>>;
-  name: string;
+  name: FieldPath<z.infer<typeof authFormSchema>>;
   label: string;
   placeholder: string;
-  type: string | undefined;
 }
 
-const CostumInput = ({
+const CustumInput = ({
   control,
   name,
   label,
   placeholder,
-  type,
-}: CostumInputProps) => {
+}: CustomInputPros) => {
   return (
     <FormField
       control={control}
-      name={name as "email" | "password"}
+      name={name}
       render={({ field }) => (
         <div className="form-item">
           <FormLabel className="form-label">{label}</FormLabel>
@@ -31,9 +30,9 @@ const CostumInput = ({
               <Input
                 placeholder={placeholder}
                 className="input-class"
-                type={type}
+                type={name === "password" ? "password" : "text"}
                 {...field}
-              ></Input>
+              />
             </FormControl>
             <FormMessage className="form-message mt-2" />
           </div>
@@ -43,4 +42,4 @@ const CostumInput = ({
   );
 };
 
-export default CostumInput;
+export default CustumInput;
