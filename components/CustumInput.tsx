@@ -5,9 +5,11 @@ import { authFormSchema } from "@/lib/utils";
 import { Control, FieldPath } from "react-hook-form";
 import { z } from "zod";
 
-interface CustomInputPros {
-  control: Control<z.infer<typeof authFormSchema>>;
-  name: FieldPath<z.infer<typeof authFormSchema>>;
+const formSchema = authFormSchema("sign-up");
+
+interface CustomInputProps {
+  control: Control<z.infer<typeof formSchema>>;
+  name: FieldPath<z.infer<typeof formSchema>>;
   label: string;
   placeholder: string;
 }
@@ -17,7 +19,7 @@ const CustumInput = ({
   name,
   label,
   placeholder,
-}: CustomInputPros) => {
+}: CustomInputProps) => {
   return (
     <FormField
       control={control}
@@ -31,6 +33,7 @@ const CustumInput = ({
                 placeholder={placeholder}
                 className="input-class"
                 type={name === "password" ? "password" : "text"}
+                autoComplete="off"
                 {...field}
               />
             </FormControl>
