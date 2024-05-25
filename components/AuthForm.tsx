@@ -161,21 +161,20 @@ const AuthForm = ({ type }: { type: string }) => {
                   </div>
                 </>
               )}
-
+              flex
               <CustumInput
                 control={form.control}
                 name="email"
                 label="Email"
                 placeholder="Enter your email"
               />
-
               <CustumInput
                 control={form.control}
                 name="password"
                 label="Password"
                 placeholder="Enter your password"
               />
-              <div className="flex flex-col gap-4">
+              <div className="flex-col gap-4">
                 <Button type="submit" className="form-btn" disabled={isLoading}>
                   {isLoading ? (
                     <>
